@@ -7,29 +7,60 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
-@0          
-M=0         
+M = 0
 
-@2          
-D=M        
+@R1
+D=M
 
-@END        
-D;JEQ       
+@End
+D;JEQ
 
-(LOOP)      
+@R2
+D=M
 
-@1          
-D=M         
+@End
+D;JEQ
 
-@0          
-M=M+D       
+@R2
+D=M
+@Positive
+D;JGT
 
-@2          
-MD=M-1     
+D = !D
+D = D + 1
 
-@LOOP       
-D;JGT       
+(Positive)
+@counter
+M = D
 
-(END)       
-@END        
-0;JMP       
+(Loop)
+@R1
+D = M
+@R0
+M = M + D
+
+@counter
+M = M - 1
+D = M
+
+@Loop
+D;JGT
+
+@R2
+D = M
+
+@NEG
+D;JLT
+
+
+
+(End)
+@End
+A;JMP
+
+(NEG)
+@R0
+M=!M
+M=M+1
+@End
+A;JMP
