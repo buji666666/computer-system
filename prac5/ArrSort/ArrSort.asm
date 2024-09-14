@@ -2,118 +2,133 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
-// 冒泡排序程序
-// 对从RAM[R1]开始的R2个元素进行升序排序
+@R1
+D=M - 1
 
-// 初始化外层循环计数器
-@2     
+@SORTED
+D;JLE
+
+@R2
 D=M
-@16     
+
+@SORTED
+D;JLE
+
+(MainLoop)
+@R2
+D = M
+@R5
+M = D
+
+@R1
+A=M
+D=M
+
+@R0
 M=D
-@17     
-M=0
 
-(OUTER_LOOP)
-    
-    @17
-    D=M
-    @16
-    D=D-M
-    @77     
-    D;JGE
+@R4
+M = 0
 
-    
-    @16
-    D=M
-    @17
-    D=D-M
-    @18     
-    @1
-    D=A
-    @18
-    M=M-D  
+(Loop)
 
-(INNER_LOOP)
-    
-    @18
-    D=M
-    @73    
-    D;JLT
+@R5
+D = M - 1
 
-   
-    @1
-    D=M
-    @18
-    A=D+M
-    D=M     
-    @19     
-    M=D     
-    
-    @1
-    D=M
-    @18
-    A=D+M
-    A=A+1
-    D=M     
+@R1
+A = M + D
+D = M
 
-   
-    @19
-    D=D-M
-    @44     
-    D;JLT
+@R7
+M = D
 
-    @69     
-    0;JMP
+@BPOS
+D;JGE
 
-(SWAP)
-   
-    @1
-    D=M
-    @18
-    A=D+M
-    D=M
-    @19
-    M=D    
-    
-    @1
-    D=M
-    @18
-    A=D+M
-    A=A+1
-    D=M
-    @1
-    A=M
-    A=D+A
-    A=A-1
-    M=D    
-    
-    @19
-    D=M
-    @1
-    A=M
-    A=D+A
-    A=A+1
-    M=D    
+@R0
+D = M
+@SwitchElements
+D;JGE
 
-(INNER_INCREMENT)
-    @18
-    M=M-1
-    @22     
-    0;JMP
+@NNPP
+A;JMP
 
-(OUTER_INCREMENT)
-    @17
-    M=M+1
-    @6     
-    0;JMP
+(BPOS)
+@R0
+D = M
+@keepTemp
+D;JLE
 
-(FINISH)
-    @1
-    D=A
-    D=D-1
-    @0
-    M=D     
+(NNPP)
+
+@R7
+D = M
+
+@R0
+D = M-D
+
+@keepTemp
+D;JLE
+
+(SwitchElements)
+@R7
+D = M
+
+@R0
+M=D
+
+@R5
+D = M
+
+@R4
+M = D-1
+
+(keepTemp)
+@R5
+MD = M-1
+
+@Loop
+D-1;JGT
+
+@R4
+D = M
+
+@R1
+D = M + D
+
+@R6
+M = D
+
+@R1
+A = M
+D = M
+
+@R6
+A = M
+M = D
+
+@R0
+D = M
+
+@R1
+A = M
+M = D
+
+@R1
+M = M + 1
+
+@R2
+M = M - 1
+D = M - 1
+
+@MainLoop
+D;JGT
+
+
+(SORTED)
+@R0
+M = -1
 
 (END)
-    @82     
-    0;JMP
+@END
+A;JMP
