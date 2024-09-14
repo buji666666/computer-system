@@ -2,55 +2,94 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
-@1          
-D=M         
-@ADDR       
-M=D         
+@R1
+D=M
+@R2
+D=M+D
+@16383
+D=A-D
+@END
+D;JLT
 
-@0          
-@ADDR       
-A=M         
-D=M         
-@0          
-M=D        
+@R1
+D=M
 
-@2          
-D=M         
-@COUNTER    
-M=D         
+@END
+D=D-1
+D=D-1
+D;JLE
 
-@LOOP_CHECK
-0;JMP
+@R1
+A=M
+D=M
 
-(LOOP)
-  @ADDR       
-  M=M+1      
+@R0
+M=D
 
-  @ADDR       
-  A=M         
-  D=M         
+@R2
+D=M
 
-  @0          
-  D=M-D       
-  @UPDATE_MIN 
-  D;JGT       
+@END
+D;JLE
 
-@LOOP_CHECK   
-0;JMP        
+(Loop)
 
-(UPDATE_MIN)
-  @ADDR       
-  A=M         
-  D=M        
-  @0          
-  M=D         
+@R2
+D = M - 1
 
-(LOOP_CHECK)
-  @COUNTER    
-  MD=M-1      
-  @LOOP       
-  D;JGT       
+@R1
+A = M + D
+D = M
+
+@R7
+M = D
+
+@BPOS
+D;JGE
+
+@R0
+D = M
+@SwitchElements
+D;JGE
+
+@NNPP
+A;JMP
+
+(BPOS)
+@R0
+D = M
+@keepTemp
+D;JLE
+
+(NNPP)
+
+@R7
+D = M
+
+@R0
+D = M-D
+
+@keepTemp
+D;JLE
+
+(SwitchElements)
+@R7
+D = M
+
+@R0
+M=D
+
+@R2
+D = M
+
+(keepTemp)
+@R2
+M = M-1
+D = M-1
+
+@Loop
+D;JGT
 
 (END)
-  @END       
-  0;JMP       
+@END
+A;JMP
